@@ -1,0 +1,22 @@
+#basic class definition
+CLASS "State" as State:
+"number infectionsTotal"
+"number infectionsPerSecond"
+"[Building] buildings"
+"[Building] shopItems"
+
+CLASS "Building" as Building:
+"String icon"
+"String name"
+"String description"
+"number basePrice"
+"number infectionRatePerSecond"
+
+CLASS "UI" as UI:
+"setStatistics()"
+"update()"
+
+
+State-Building
+UI-Building
+State-UI

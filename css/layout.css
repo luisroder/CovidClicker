@@ -1,0 +1,72 @@
+.fullPage {
+    width: 100vw;
+    height: 100vh;
+
+    font-family: 'Ubuntu', sans-serif;
+
+    display: grid;
+
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+
+    gap: 10px;
+
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.fullPage .headerPage,
+.leftGame,
+.centerGame,
+.rightGame {
+    padding: 10px;
+    border: 1px solid #000000;
+}
+
+.headerPage {
+    background-color: #F1F1F1;
+    text-align: center;
+    grid-column-start: 1;
+    grid-column-end: 11;
+}
+
+.headerTable {
+    width: 100%;
+}
+
+.shopTable {
+    width: 100%;
+}
+
+.leftGame {
+    background-color: #F1F1F1;
+    text-align: center;
+
+    grid-row-start: 2;
+    grid-row-end: 11;
+
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.centerGame {
+    background-color: #F1F1F1;
+    text-align: center;
+
+    grid-row-start: 2;
+    grid-row-end: 11;
+
+    grid-column-start: 3;
+    grid-column-end: 7;
+}
+
+.rightGame {
+    background-color: #F1F1F1;
+    text-align: center;
+
+    grid-row-start: 2;
+    grid-row-end: 11;
+
+    grid-column-start: 7;
+    grid-column-end: 11;
+}
