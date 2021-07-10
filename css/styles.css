@@ -9,36 +9,10 @@ body {
     font-size: 20pt;
 }
 
-#main_icon {}
-
 #main_icon:hover {
     filter: brightness(80%);
 }
 
-@keyframes popout {
-    from {
-        transform: scale(0)
-    }
-
-    80% {
-        transform: scale(1.2)
-    }
-
-    to {
-        transform: scale(1)
-    }
-}
-
-@-webkit-keyframes popout {
-    from {
-        -webkit-transform: scale(0)
-    }
-
-    80% {
-        -webkit-transform: scale(1.2)
-    }
-
-    to {
-        -webkit-transform: scale(1)
-    }
+.shopTable td{
+    border: 1px solid #000;
 }

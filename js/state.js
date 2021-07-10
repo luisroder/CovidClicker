@@ -23,10 +23,13 @@ class State {
             this.buildings.push(building);
             this.updateInfectionRate();
             let ui = new Ui();
-            ui.updateShop(building);
             ui.updateCenter(building);
         }
-
+    }
+    addShopItem(building) {
+        if(!this.shopItems.includes(building)) {
+            this.shopItems.push(building);
+        }
     }
     updateInfectionRate() {
         let total = 0;
