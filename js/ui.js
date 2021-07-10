@@ -26,16 +26,50 @@ class Ui {
         totalInfections.innerText = Math.round(gameState.infectionsTotal);
         gainInfections.innerText = gameState.infectionsPerSecond.toFixed(1);
     }
-    updateShop(building) {
-        let icon = document.getElementById("buildingIcon");
-        let name = document.getElementById("buildingName");
-        let description = document.getElementById("buildingDescription");
-        let info = document.getElementById("buildingInfo");
+    //Add all items to the shopTable
+    fillShop(gameState) {
+            gameState.shopItems.forEach(building => {
+            let shopTable = document.getElementById("shopTable");
+            let tr = document.createElement("tr");
+            tr.id = building.name;
+            shopTable.appendChild(tr);
+            tr = document.getElementById(building.name);
 
-        icon.src = building.icon;
-        name.innerText = building.name;
-        description.innerText = building.description;
-        info.innerHTML = "Price: " + building.basePrice + "<br />Gain: " + building.infectionRatePerSecond;
+            let tdIcon = document.createElement("td");
+            tdIcon.id = building.name + " Icon";
+            tr.appendChild(tdIcon);
+            tdIcon = document.getElementById(building.name + " Icon");            
+            let icon = document.createElement("img");
+            icon.src = building.icon;
+            icon.style.width = "50px";
+            tdIcon.appendChild(icon);
+
+            let tdName = document.createElement("td");
+            tdName.innerText = building.name;
+            tr.appendChild(tdName);
+
+            let tdDesc = document.createElement("td");
+            tdDesc.innerText = building.description;
+            tr.appendChild(tdDesc);
+
+            let tdInfo = document.createElement("td");
+            tdInfo.innerHTML = "Price: " + building.basePrice + "<br />Gain: " + building.infectionRatePerSecond;
+            tr.appendChild(tdInfo);
+
+            let tdBtn = document.createElement("td");
+            tdBtn.id = building.name + " Button";
+            tr.appendChild(tdBtn);
+
+            tdBtn = document.getElementById(building.name + " Button");
+            let btn = document.createElement("button");
+            btn.innerText = "Buy";
+            btn.addEventListener("click", function (event) {
+                    gameState.buyBuilding(building);
+                });
+            tdBtn.appendChild(btn);
+        });
+        
+    
     }
     updateCenter(building) {
         let centerGame = document.getElementById("centerGame");

@@ -8,9 +8,14 @@ function onInit() {
     let ui = new Ui();
     let descBat = "This little creature is a delicacy on the Wuhan market. It carries infectious diseases like CoVid-19.";
     let buildingBat = new Building("../resource/bat_icon.png", "Wuhan Bat", descBat, 15, 0.2);
-    //gameState.buyBuilding(buildingBat);
+    let descBat2 = "This little creature is a delicacy on the Wuhan market. It2 carries infectious diseases like CoVid-19.";
+    let buildingBat2 = new Building("../resource/textile_1.jpg", "Wuhan Bat2", descBat2, 150, 10);
+    
+    gameState.addShopItem(buildingBat);
+    gameState.addShopItem(buildingBat2);
+
     ui.updateStatistics();
-    ui.updateShop(buildingBat);
+    ui.fillShop(gameState);
     gameState.onUpdate = function (state) {
         ui.updateState(state);
     }
@@ -18,10 +23,6 @@ function onInit() {
     let mainIconEl = document.getElementById("main_icon");
     mainIconEl.addEventListener("click", function (event) {
         gameState.increaseTotal(1);
-    });
-    let btnBuy = document.getElementById("buyBat");
-    btnBuy.addEventListener("click", function (event) {
-        gameState.buyBuilding(buildingBat);
     });
     let btnAboutCc = document.getElementById("btn_about_cc");
     btnAboutCc.addEventListener("click", function (event) {
