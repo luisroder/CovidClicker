@@ -15,7 +15,7 @@ function onInit() {
     gameState.addShopItem(buildingBat2);
 
     ui.updateStatistics();
-    ui.fillShop(gameState);
+    ui.updateShop(gameState);
     gameState.onUpdate = function (state) {
         ui.updateState(state);
     }

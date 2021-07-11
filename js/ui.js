@@ -26,8 +26,8 @@ class Ui {
         totalInfections.innerText = Math.round(gameState.infectionsTotal);
         gainInfections.innerText = gameState.infectionsPerSecond.toFixed(1);
     }
-    //Add all items to the shopTable
-    fillShop(gameState) {
+    //Add or update all items to the shopTable
+    updateShop(gameState) {
             gameState.shopItems.forEach(building => {
             let shopTable = document.getElementById("shopTable");
             let tr = document.createElement("tr");
@@ -53,7 +53,7 @@ class Ui {
             tr.appendChild(tdDesc);
 
             let tdInfo = document.createElement("td");
-            tdInfo.innerHTML = "Price: " + building.basePrice + "<br />Gain: " + building.infectionRatePerSecond;
+            tdInfo.innerHTML = "Price: " + Math.round(building.currentPrice) + "<br />Gain: " + building.infectionRatePerSecond;
             tr.appendChild(tdInfo);
 
             let tdBtn = document.createElement("td");
@@ -64,7 +64,7 @@ class Ui {
             let btn = document.createElement("button");
             btn.innerText = "Buy";
             btn.addEventListener("click", function (event) {
-                    gameState.buyBuilding(building);
+                    gameState.buyBuilding(building, this);
                 });
             tdBtn.appendChild(btn);
         });

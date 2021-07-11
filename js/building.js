@@ -4,6 +4,7 @@ class Building {
         this.name = name;
         this.description = description;
         this.basePrice = basePrice;
+        this.currentPrice = this.basePrice;
         this.infectionRatePerSecond = infectionRatePerSecond;
     }
 }
