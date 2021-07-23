@@ -5,6 +5,7 @@ window.onload = function (event) {
 function onInit() {
     // Define instance of State and Ui.
     let saveGame = new Savegame();
+    // saveGame.deleteAllCookies();
     let gameState = new State(saveGame);
     let ui = new Ui();
 
