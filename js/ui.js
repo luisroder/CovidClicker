@@ -4,8 +4,12 @@ class Ui {
     // API call germanies covid statistics.
     async updateStatistics() {
         try {
-            let responseTotal = await fetch("https://api-rki.provadis-it-ausbildung.de/germany");
-            let responseDays = await fetch("https://api-rki.provadis-it-ausbildung.de/germany/history/deaths/1");
+            let responseTotal = await fetch(
+                "https://api-rki.provadis-it-ausbildung.de/germany"
+            );
+            let responseDays = await fetch(
+                "https://api-rki.provadis-it-ausbildung.de/germany/history/deaths/1"
+            );
 
             let jsonTotal = await responseTotal.json();
             let jsonDays = await responseDays.json();
@@ -33,47 +37,51 @@ class Ui {
 
     // Add or update all items to the shopTable.
     updateShop(gameState) {
-            let shopTable = document.getElementById("shopTable");
-            shopTable.innerHTML = "";
-            
-            gameState.shopItems.forEach(building => {
-                let tr = document.createElement("tr");
-                tr.id = building.name;
-                shopTable.appendChild(tr);
-                tr = document.getElementById(building.name);
+        let shopTable = document.getElementById("shopTable");
+        shopTable.innerHTML = "";
 
-                let tdIcon = document.createElement("td");
-                tdIcon.id = building.name + " Icon";
-                tr.appendChild(tdIcon);
-                tdIcon = document.getElementById(building.name + " Icon");            
-                let icon = document.createElement("img");
-                icon.src = building.icon;
-                icon.style.width = "50px";
-                tdIcon.appendChild(icon);
+        gameState.shopItems.forEach((building) => {
+            let tr = document.createElement("tr");
+            tr.id = building.name;
+            shopTable.appendChild(tr);
+            tr = document.getElementById(building.name);
 
-                let tdName = document.createElement("td");
-                tdName.innerText = building.name;
-                tr.appendChild(tdName);
+            let tdIcon = document.createElement("td");
+            tdIcon.id = building.name + " Icon";
+            tr.appendChild(tdIcon);
+            tdIcon = document.getElementById(building.name + " Icon");
+            let icon = document.createElement("img");
+            icon.src = building.icon;
+            icon.style.width = "50px";
+            tdIcon.appendChild(icon);
 
-                let tdDesc = document.createElement("td");
-                tdDesc.innerText = building.description;
-                tr.appendChild(tdDesc);
+            let tdName = document.createElement("td");
+            tdName.innerText = building.name;
+            tr.appendChild(tdName);
 
-                let tdInfo = document.createElement("td");
-                tdInfo.innerHTML = "Price: " + Math.round(building.currentPrice) + "<br />Gain: " + building.infectionRatePerSecond;
-                tr.appendChild(tdInfo);
+            let tdDesc = document.createElement("td");
+            tdDesc.innerText = building.description;
+            tr.appendChild(tdDesc);
 
-                let tdBtn = document.createElement("td");
-                tdBtn.id = building.name + " Button";
-                tr.appendChild(tdBtn);
+            let tdInfo = document.createElement("td");
+            tdInfo.innerHTML =
+                "Price: " +
+                Math.round(building.currentPrice) +
+                "<br />Gain: " +
+                building.infectionRatePerSecond;
+            tr.appendChild(tdInfo);
 
-                tdBtn = document.getElementById(building.name + " Button");
-                let btn = document.createElement("button");
-                btn.innerText = "Buy";
-                btn.addEventListener("click", (event) => {
-                        gameState.buyBuilding(building, this);
-                    });
-                tdBtn.appendChild(btn);
+            let tdBtn = document.createElement("td");
+            tdBtn.id = building.name + " Button";
+            tr.appendChild(tdBtn);
+
+            tdBtn = document.getElementById(building.name + " Button");
+            let btn = document.createElement("button");
+            btn.innerText = "Buy";
+            btn.addEventListener("click", (event) => {
+                gameState.buyBuilding(building, this);
+            });
+            tdBtn.appendChild(btn);
         });
     }
 

@@ -1,13 +1,15 @@
 class State {
-    constructor(infectionsTotal, infectionsPerSecond) {
-        this.infectionsTotal = infectionsTotal;
-        this.infectionsPerSecond = infectionsPerSecond;
+    constructor(savegame) {
+        this.infectionsTotal = 0;
+        this.infectionsPerSecond = 0;
         this.buildings = [];
         this.shopItems = [];
-        this.onUpdate = function () {}
+        this.loadState(savegame);
+        this.onUpdate = function () {};
         // Updates infections every 1/10 seconds.
         this.timer = setInterval(() => {
             this.addNewInfections();
+            this.saveState(savegame);
         }, 100);
     }
 
@@ -24,21 +26,24 @@ class State {
 
     // Add item to buildings, increase shopItem price and add building to center.
     buyBuilding(building, ui) {
-        for(let i = 0;  i < this.shopItems.length; i++) {
-            if(this.shopItems[i].name == building.name && this.infectionsTotal >= this.shopItems[i].currentPrice){
-                this.increaseTotal((-1) * (this.shopItems[i].currentPrice));
+        for (let i = 0; i < this.shopItems.length; i++) {
+            if (
+                this.shopItems[i].name == building.name &&
+                this.infectionsTotal >= this.shopItems[i].currentPrice
+            ) {
+                this.increaseTotal(-1 * this.shopItems[i].currentPrice);
                 this.buildings.push(building);
                 this.updateInfectionRate();
                 ui.updateCenter(building);
                 this.shopItems[i].currentPrice *= 1.15;
-                ui.updateShop(this);                
+                ui.updateShop(this);
             }
         }
     }
 
     // Adds building to shopItems if it is not there yet.
     addShopItem(building) {
-        if(!this.shopItems.includes(building)) {
+        if (!this.shopItems.includes(building)) {
             this.shopItems.push(building);
         }
     }
@@ -46,9 +51,27 @@ class State {
     // Updates infections per second based on owned buildings.
     updateInfectionRate() {
         let total = 0;
-        this.buildings.forEach(item => {
+        this.buildings.forEach((item) => {
             total += item.infectionRatePerSecond;
-        })
+        });
         this.infectionsPerSecond = total;
+    }
+
+    // Saves State.
+    saveState(savegame) {
+        savegame.setCookie(Object.keys(this.infectionsTotal)[0], this.infectionsTotal);
+        savegame.setCookie(Object.keys(this.infectionsPerSecond)[0], this.infectionsPerSecond);
+        savegame.setCookie(Object.keys(this.buildings)[0], this.buildings);
+        savegame.setCookie(Object.keys(this.shopItems)[0], this.shopItems);
+    }
+
+    // Loads State.
+    loadState(savegame) {
+        if (!document.cookie.includes("undefined=NaN")) {
+            this.infectionsTotal = savegame.getCookie(Object.keys(this.infectionsTotal)[0]);
+            this.infectionsPerSecond = savegame.getCookie(Object.keys(this.infectionsPerSecond)[0]);
+            this.buildings = savegame.getCookie(Object.keys(this.buildings)[0]);
+            this.shopItems = savegame.getCookie(Object.keys(this.shopItems)[0]);
+        }
     }
 }
