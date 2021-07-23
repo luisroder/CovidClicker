@@ -59,19 +59,22 @@ class State {
 
     // Saves State.
     saveState(savegame) {
-        savegame.setCookie(Object.keys(this.infectionsTotal)[0], this.infectionsTotal);
-        savegame.setCookie(Object.keys(this.infectionsPerSecond)[0], this.infectionsPerSecond);
-        savegame.setCookie(Object.keys(this.buildings)[0], this.buildings);
-        savegame.setCookie(Object.keys(this.shopItems)[0], this.shopItems);
+        let objectString = JSON.stringify(this);
+        savegame.setCookie("gameState", objectString);
     }
 
     // Loads State.
     loadState(savegame) {
-        if (!document.cookie.includes("undefined=NaN")) {
-            this.infectionsTotal = savegame.getCookie(Object.keys(this.infectionsTotal)[0]);
-            this.infectionsPerSecond = savegame.getCookie(Object.keys(this.infectionsPerSecond)[0]);
-            this.buildings = savegame.getCookie(Object.keys(this.buildings)[0]);
-            this.shopItems = savegame.getCookie(Object.keys(this.shopItems)[0]);
+        let gameSave = savegame.getCookie("gameState");
+        if(typeof(gameSave) != "undefined"){
+            console.log(gameSave);
+            let jsonObject = JSON.parse(gameSave);
+            this.infectionsTotal = jsonObject.infectionsTotal;
+            this.infectionsPerSecond = jsonObject.infectionsPerSecond;
+            this.buildings = jsonObject.buildings;
+            this.shopItems = jsonObject.shopItems;
         }
+        
+
     }
 }
