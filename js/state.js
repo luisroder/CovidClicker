@@ -2,7 +2,7 @@ class State {
     constructor(savegame) {
         this.infectionsTotal = 0;
         this.infectionsPerSecond = 0;
-        this.buildings = [];
+        this.buildings = [[]];
         this.shopItems = [];
         this.loadState(savegame);
         this.onUpdate = function () {};
@@ -32,7 +32,7 @@ class State {
                 this.infectionsTotal >= this.shopItems[i].currentPrice
             ) {
                 this.increaseTotal(-1 * this.shopItems[i].currentPrice);
-                this.buildings.push(building);
+                this.addBuilding(building);
                 this.updateInfectionRate();
                 ui.updateCenter(building);
                 this.shopItems[i].currentPrice *= 1.15;
@@ -43,17 +43,56 @@ class State {
 
     // Adds building to shopItems if it is not there yet.
     addShopItem(building) {
-        if (!this.shopItems.includes(building)) {
+        if(!this.isIncluded(building, this.shopItems)){
             this.shopItems.push(building);
         }
+    }
+
+    // Adds building to buildings/increases it's quantity.
+    addBuilding(building) {
+        let buildingKeyValue = [building, 1];
+
+        if(!this.isIncludedDictionary(building, this.buildings)) {
+            this.buildings.push(buildingKeyValue);
+        } else {
+            this.buildings.forEach(el => {
+                if(el[0].name == building.name) {
+                    el[1]++;
+                }
+            })
+        }
+    }
+
+    // Checks if a building is included just by comparing names (Ignores currentPrice difference)
+    isIncluded(building, list){
+        let isIncluded = false;
+        list.forEach(el => {
+            if(el.name == building.name) {
+                isIncluded = true;
+            }
+        });
+        return isIncluded;
+    }
+
+    // Checks if a building is included just by comparing names in a dictionary (Ignores currentPrice difference)
+    isIncludedDictionary(building, list){
+        let isIncluded = false;
+        for(let i = 0; i < list.length; i++){
+            if(list[0].name == building.name){
+                isIncluded = true;
+            }
+        }
+        return isIncluded;
     }
 
     // Updates infections per second based on owned buildings.
     updateInfectionRate() {
         let total = 0;
-        this.buildings.forEach((item) => {
-            total += item.infectionRatePerSecond;
-        });
+        if(this.buildings.length > 0 && typeof(this.buildings) != "undefined") {
+            this.buildings.forEach(el => {
+                total += el[1] * el[0].infectionRatePerSecond;
+            });
+        } 
         this.infectionsPerSecond = total;
     }
 
@@ -67,14 +106,11 @@ class State {
     loadState(savegame) {
         let gameSave = savegame.getCookie("gameState");
         if(typeof(gameSave) != "undefined"){
-            console.log(gameSave);
             let jsonObject = JSON.parse(gameSave);
             this.infectionsTotal = jsonObject.infectionsTotal;
             this.infectionsPerSecond = jsonObject.infectionsPerSecond;
             this.buildings = jsonObject.buildings;
             this.shopItems = jsonObject.shopItems;
         }
-        
-
     }
 }
