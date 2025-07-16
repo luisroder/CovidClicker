@@ -1,5 +1,6 @@
 class Building {
-  constructor(icon, name, description, basePrice, infectionRatePerSecond) {
+  constructor(id, icon, name, description, basePrice, infectionRatePerSecond) {
+    this.id = id;
     this.icon = icon;
     this.name = name;
     this.description = description;

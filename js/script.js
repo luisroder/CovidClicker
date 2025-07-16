@@ -3,30 +3,41 @@ window.onload = function (event) {
 };
 
 function onInit() {
+  let cookieHandler = new CookieHandler();
+  let gameStateCookie = cookieHandler.getGameState();
+
   let gameState = new State(500, 0);
+
+  if (gameStateCookie === null) {
+    let descBat =
+      'This little creature is a delicacy on the Wuhan market. It carries infectious diseases like CoVid-19.';
+    let buildingBat = new Building(
+      0,
+      '../resource/buildings/bat_icon.png',
+      'Wuhan Bat',
+      descBat,
+      15,
+      0.2
+    );
+    let descBat2 =
+      'This little fucker thougt it was funny to go skiing in a CoVid-19 hotspot. He became a superspreader.';
+    let buildingBat2 = new Building(
+      1,
+      '../resource/buildings/ski_icon.png',
+      'Ischgl Skier',
+      descBat2,
+      150,
+      10
+    );
+
+    gameState.addShopItem(buildingBat);
+    gameState.addShopItem(buildingBat2);
+  } else {
+    gameState = gameStateCookie;
+  }
+
   let ui = new Ui();
-  let descBat =
-    'This little creature is a delicacy on the Wuhan market. It carries infectious diseases like CoVid-19.';
-  let buildingBat = new Building(
-    '../resource/buildings/bat_icon.png',
-    'Wuhan Bat',
-    descBat,
-    15,
-    0.2
-  );
-  let descBat2 =
-    'This little fucker thougt it was funny to go skiing in a CoVid-19 hotspot. He became a superspreader.';
-  let buildingBat2 = new Building(
-    '../resource/buildings/ski_icon.png',
-    'Ischgl Skier',
-    descBat2,
-    150,
-    10
-  );
-
-  gameState.addShopItem(buildingBat);
-  gameState.addShopItem(buildingBat2);
-
+  ui.renderCenter(gameState);
   ui.updateStatistics();
   ui.fillShop(gameState);
   gameState.onUpdate = function (state) {

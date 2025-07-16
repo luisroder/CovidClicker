@@ -29,6 +29,9 @@ class Ui {
     title.innerText = Math.round(gameState.infectionsTotal) + ' Infections';
     totalInfections.innerText = Math.round(gameState.infectionsTotal);
     gainInfections.innerText = gameState.infectionsPerSecond.toFixed(1);
+
+    let cookieHandler = new CookieHandler();
+    cookieHandler.setCookie('gameState', gameState, 365);
   }
   //Add all items to the shopTable
   fillShop(gameState) {
@@ -79,11 +82,22 @@ class Ui {
     });
   }
 
-  updateCenter(building) {
+  // Render the middle part of the website
+  renderCenter(gameState) {
     let centerGame = document.getElementById('centerGame');
+    centerGame.innerHTML = '';
+    console.log(gameState);
+    gameState.buildings.forEach((building) => {
+      let shopItem = gameState.shopItems.find((x) => x.id === building);
+      this.appendBuildingCenter(centerGame, shopItem);
+    });
+  }
+
+  // Append a bought building to the center screen
+  appendBuildingCenter(element, building) {
     let image = document.createElement('img');
     image.src = building.icon;
     image.setAttribute('width', '50px');
-    centerGame.appendChild(image);
+    element.appendChild(image);
   }
 }
