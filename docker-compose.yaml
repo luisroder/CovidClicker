@@ -9,7 +9,7 @@ services:
     ports:
       - "8084:80" # Use 8084 to avoid conflicts with existing ports (8081, 8083, 8000, 9500)
     volumes:
-      - ./:/usr/share/nginx/html
+      - ./html:/usr/share/nginx/html
     environment:
       - NGINX_HOST=cc.lusino.de
       - NGINX_PORT=80
