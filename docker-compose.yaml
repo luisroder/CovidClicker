@@ -1,16 +1,14 @@
-version: '3.9'
-  name: CovidClicker
-  services:
-    app:
-      build:
-        context: .
-        dockerfile: Dockerfile
-      container_name: cc
-      restart: always
-      ports:
-        - "8084:80"  # Use 8084 to avoid conflicts with existing ports (8081, 8083, 8000, 9500)
-      volumes:
-        - ./html:/usr/share/nginx/html  # Mount your app files (adjust if your root directory differs)
-      environment:
-        - NGINX_HOST=cc.lusino.de
-        - NGINX_PORT=80
+services:
+  CovidClicker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cc
+    restart: always
+    ports:
+      - "8084:80" # Use 8084 to avoid conflicts with existing ports (8081, 8083, 8000, 9500)
+    volumes:
+      - ./html:/usr/share/nginx/html # Mount your app files (adjust if your root directory differs)
+    environment:
+      - NGINX_HOST=cc.lusino.de
+      - NGINX_PORT=80
